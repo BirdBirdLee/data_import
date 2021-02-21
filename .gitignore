@@ -1,0 +1,14 @@
+#输入文件
+#/data_input/
+#输出文件
+#/data_output/
+#不如只屏蔽csv文件，这样文件目录能被保留
+*.csv
+#环境
+/venv/
+#以前的测试文件
+/test/
+#IDE相关文件
+/.idea/
+#pyc编译文件
+*.pyc
