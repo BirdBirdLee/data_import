@@ -65,9 +65,6 @@ if __name__ == '__main__':
     g = node_subject.SubjectGenerator(paper_path)
     g.generate()
 
-    # g = old_node_unit.UnitGenerator(paper_path)
-    # g.generate()
-
 ########################## 专家信息表还没爬 #####################
     # g = node_unit.UnitGenerator(paper_path)
     # g.generate()
@@ -79,9 +76,6 @@ if __name__ == '__main__':
     # g.generate()
 
 ####################### 专家信息表还没爬 ###########################
-
-    # g = old_rel_paper_belong_to_unit.PBTUGenerator(paper_path)
-    # g.generate()
 
     g = rel_paper_involve_keyword.PIKGenerator(paper_path)
     g.generate()

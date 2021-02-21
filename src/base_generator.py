@@ -9,7 +9,7 @@ import file_util
 class BaseGenerator:
 
     def __init__(self, input_path):
-        print('基础类生成')
+        # print('基础类创建')
         self.input_path = input_path
         file_util.FileUtil.write_header(self.output_filename, self.header)
 

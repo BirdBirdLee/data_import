@@ -5,17 +5,24 @@
 import csv
 import os
 import file_util
+import base_generator
 
-class PaperGenerator:
-    input_path = "" # 原始论文文件目录
-    output_filename = "../data_output/node_papers.csv"
-    paper_header = ['paper_id:ID', 'DOI','authors','cate_code','db','keywords'
+class PaperGenerator(base_generator.BaseGenerator):
+
+    @property
+    def output_filename(self):
+        return "../data_output/node_papers.csv"
+
+    @property
+    def header(self):
+        return ['paper_id:ID', 'DOI','authors','cate_code','db','keywords'
         ,'magazine','organs','special','subject','summary','title', ':LABEL'
         ,'type', 'mentor', 'url', 'year']
 
+
     def __init__(self, input_path):
-        self.input_path = input_path
-        file_util.FileUtil.write_header(self.output_filename, self.paper_header)
+        super().__init__(input_path)
+
 
     def generate_one_file(self, input_filename):
         '''
@@ -28,7 +35,7 @@ class PaperGenerator:
         with open(actual_filename, 'r', encoding='utf-8') as fin:
             reader = csv.DictReader(fin)
             with open(self.output_filename, 'a+', encoding='utf-8', newline='') as fout:
-                writer = csv.DictWriter(fout, self.paper_header)
+                writer = csv.DictWriter(fout, self.header)
                 for row in reader:
                     # 因为csv文件设置的header是'paper_id:ID',原始文件是'uid'，这里要改一下键的名字
                     row['paper_id:ID'] = row['uid']
@@ -37,16 +44,6 @@ class PaperGenerator:
                     writer.writerow(row)
                     num += 1
         return num
-
-    def generate(self):
-        '''
-        提取某个指定目录下的所有文件或节点
-        :return:
-        '''
-        for one_file in os.listdir(self.input_path):
-            print('开始抽取', one_file, '的节点及关系信息')
-            num = self.generate_one_file(one_file)
-            print('从', one_file, '中抽取了', num, '个节点或关系信息, 保存至', self.output_filename)
 
 
 if __name__ == '__main__':

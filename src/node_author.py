@@ -4,15 +4,21 @@
 import csv
 import os
 import file_util
+import base_generator
 
-class AuthorGenerator:
-    input_path = "" # 原始论文文件目录
-    output_filename = "../data_output/node_authors.csv"
-    author_header = ['author_id:ID', 'name', ':LABEL']
+class AuthorGenerator(base_generator.BaseGenerator):
+
+    @property
+    def output_filename(self):
+        return "../data_output/node_authors.csv"
+
+    @property
+    def header(self):
+        return ['author_id:ID', 'name', ':LABEL']
+
 
     def __init__(self, input_path):
-        self.input_path = input_path
-        file_util.FileUtil.write_header(self.output_filename, self.author_header)
+        super().__init__(input_path)
 
     def generate_one_file(self, input_filename):
         num = 0 #生成的节点或关系数
@@ -20,7 +26,7 @@ class AuthorGenerator:
         with open(actual_filename, 'r', encoding='utf-8') as fin:
             reader = csv.DictReader(fin)
             with open(self.output_filename, 'a+', encoding='utf-8', newline='') as fout:
-                writer = csv.DictWriter(fout, self.author_header)
+                writer = csv.DictWriter(fout, self.header)
                 for row in reader:
                     authors_str = row['authors']
                     if len(authors_str) < 1:

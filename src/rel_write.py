@@ -3,15 +3,21 @@
 import csv
 import os
 import file_util
+import base_generator
 
-class WriteGenerator:
-    input_path = "" # 原始论文文件目录
-    output_filename = "../data_output/rel_write.csv"
-    header = [':START_ID',':END_ID',':TYPE']
+class WriteGenerator(base_generator.BaseGenerator):
+
+    @property
+    def output_filename(self):
+        return "../data_output/rel_write.csv"
+
+    @property
+    def header(self):
+        return [':START_ID',':END_ID',':TYPE']
+
 
     def __init__(self, input_path):
-        self.input_path = input_path
-        file_util.FileUtil.write_header(self.output_filename, self.header)
+        super().__init__(input_path)
 
     def generate_one_file(self, input_filename):
         num = 0  # 生成的节点或关系数
@@ -46,16 +52,7 @@ class WriteGenerator:
                             num += 1
         return num
 
-    def generate(self):
-        '''
-        提取某个指定目录下的所有文件或节点
-        :return:
-        '''
-        for one_file in os.listdir(self.input_path):
-            print('开始抽取', one_file, '的节点及关系信息')
-            num = self.generate_one_file(one_file)
-            print('从', one_file, '中抽取了', num, '个节点或关系信息, 保存至', self.output_filename)
 
 if __name__ == '__main__':
     g = WriteGenerator('../data_input')
-    g.generate_one_file_write_node('2021_journal.csv')
+    g.generate_one_file('2021_journal.csv')
