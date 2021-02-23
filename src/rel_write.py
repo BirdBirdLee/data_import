@@ -13,7 +13,7 @@ class WriteGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return [':START_ID',':END_ID',':TYPE']
+        return [':START_ID(Author-ID)',':END_ID(Paper-ID)',':TYPE']
 
 
     def __init__(self, input_path):
@@ -34,8 +34,8 @@ class WriteGenerator(base_generator.BaseGenerator):
                     authors_with_link = authors_str.split('&')
                     write_dict = {}  # 待存入的一行write关系的信息
                     for awl in authors_with_link:
-                        write_dict[':TYPE'] = 'Write'  # 打上write的rel标签
-                        write_dict[':END_ID'] = row['uid']   #write关系的结束节点是论文
+                        write_dict[':TYPE'] = 'write'  # 打上write的rel标签
+                        write_dict[':END_ID(Paper-ID)'] = row['uid']   #write关系的结束节点是论文
                         # 提取出作者的名字、code，把code作为唯一id，利用知网帮忙去重
                         # todo 这里有个问题，有的人code是null，所以如果链接是null
                         if len(awl) > 0:
@@ -45,9 +45,9 @@ class WriteGenerator(base_generator.BaseGenerator):
                             id = awl.split('-')[1]
                             # 如果人的code是null，就暂时将名字作为唯一id
                             if id != 'null':
-                                write_dict[':START_ID'] = 'author-' + id
+                                write_dict[':START_ID(Author-ID)'] = 'author-' + id
                             else:
-                                write_dict[':START_ID'] = name
+                                write_dict[':START_ID(Author-ID)'] = name
                             writer.writerow(write_dict)
                             num += 1
         return num

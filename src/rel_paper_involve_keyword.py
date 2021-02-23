@@ -14,7 +14,7 @@ class PIKGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return [':START_ID',':END_ID',':TYPE']
+        return [':START_ID(Paper-ID)',':END_ID(Keyword-ID)',':TYPE']
 
 
     def __init__(self, input_path):
@@ -34,12 +34,12 @@ class PIKGenerator(base_generator.BaseGenerator):
                     # 得到 关键词-链接形式的元组
                     keywords_with_link = keywords_str.split(';')
                     keyword_row = {}  # 待存入的一行关键词的信息
-                    keyword_row[':START_ID'] = row['uid']
+                    keyword_row[':START_ID(Paper-ID)'] = row['uid']
                     keyword_row[':TYPE'] = 'paper_involve_keyword'
                     for kwl in keywords_with_link:
                         # 提取出关键词的名字，并作为唯一id
                         if len(kwl) > 0:
-                            keyword_row[':END_ID'] = kwl.split('-')[0].strip()
+                            keyword_row[':END_ID(Keyword-ID)'] = kwl.split('-')[0].strip()
                             writer.writerow(keyword_row)
                             num += 1
         return num

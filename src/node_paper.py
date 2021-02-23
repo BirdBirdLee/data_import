@@ -15,9 +15,13 @@ class PaperGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return ['paper_id:ID', 'DOI','authors','cate_code','db','keywords'
-        ,'magazine','organs','special','subject','summary','title', ':LABEL'
-        ,'type', 'mentor', 'url', 'year']
+        # return ['paper_id:ID', 'DOI','authors','cate_code','db','keywords'
+        # ,'journal','unit','special','subject','summary','title', ':LABEL'
+        # ,'type', 'mentor', 'url', 'year']
+
+        return ['paper_id:ID(Paper-ID)', 'DOI', 'cate_code', 'db', 'units',
+                'special', 'summary', 'title', ':LABEL'
+                , 'type', 'url', 'year']
 
 
     def __init__(self, input_path):
@@ -36,12 +40,32 @@ class PaperGenerator(base_generator.BaseGenerator):
             reader = csv.DictReader(fin)
             with open(self.output_filename, 'a+', encoding='utf-8', newline='') as fout:
                 writer = csv.DictWriter(fout, self.header)
+                paper_row = {}  # 一行论文节点的信息，期刊和博硕整合在一起，用type属性区分
+                paper_row[':LABEL'] = 'Paper'
                 for row in reader:
-                    # 因为csv文件设置的header是'paper_id:ID',原始文件是'uid'，这里要改一下键的名字
-                    row['paper_id:ID'] = row['uid']
-                    row.pop('uid')
-                    row[':LABEL'] = 'Paper'    #打上paper的node标签
-                    writer.writerow(row)
+
+                    # 抽取属性，其中作者，关键词，期刊，学科领域这几个字段直接通过关系链接
+                    # unit 因为还没写关于单位的代码，所以暂时在节点中保留这一属性
+                    # mentor即导师属性暂时删除
+                    paper_row['paper_id:ID(Paper-ID)'] = row['uid']
+                    paper_row['DOI'] = row['DOI']
+                    # paper_row['authors'] = row['authors']
+                    paper_row['cate_code'] = row['cate_code']
+                    paper_row['db'] = row['db']
+                    # paper_row['keywords'] = row['keywords']
+                    # paper_row['journal'] = row['journal']
+                    paper_row['units'] = row['organs']
+                    paper_row['special'] = row['special']
+                    # paper_row['subject'] = row['subject']
+                    # 注意概要中可能包含换行,但csv不能多行
+                    paper_row['summary'] = row['summary'].replace('\n', ' ').replace('\r', '')
+                    paper_row['title'] = row['title']
+                    paper_row['type'] = row['type']
+                    # paper_row['mentor'] = row['mentor']
+                    paper_row['url'] = row['url']
+                    paper_row['year'] = row['year']
+
+                    writer.writerow(paper_row)
                     num += 1
         return num
 

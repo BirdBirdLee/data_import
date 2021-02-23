@@ -14,7 +14,7 @@ class PISGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return [':START_ID',':END_ID',':TYPE']
+        return [':START_ID(Paper-ID)',':END_ID(Subject-ID)',':TYPE']
 
 
     def __init__(self, input_path):
@@ -37,8 +37,8 @@ class PISGenerator(base_generator.BaseGenerator):
                     for pis in piss:
                         pis_row[':TYPE'] = 'paper_involve_subject'
                         # 由论文id指向subject
-                        pis_row[':START_ID'] = row['uid']
-                        pis_row[':END_ID'] = pis.strip()
+                        pis_row[':START_ID(Paper-ID)'] = row['uid']
+                        pis_row[':END_ID(Subject-ID)'] = pis.strip()
                         writer.writerow(pis_row)
                         num += 1
         return num

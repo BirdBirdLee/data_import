@@ -14,7 +14,7 @@ class PBTJGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return [':START_ID',':END_ID',':TYPE']
+        return [':START_ID(Paper-ID)',':END_ID(Journal-ID)',':TYPE']
 
 
     def __init__(self, input_path):
@@ -36,8 +36,8 @@ class PBTJGenerator(base_generator.BaseGenerator):
                     pbtj_row = {}    # 待存入的一行pbtj的信息
                     pbtj_row[':TYPE'] = 'paper_belong_to_journal'
                     # 由论文id指向journal
-                    pbtj_row[':START_ID'] = row['uid']
-                    pbtj_row[':END_ID'] = journal_name
+                    pbtj_row[':START_ID(Paper-ID)'] = row['uid']
+                    pbtj_row[':END_ID(Journal-ID)'] = journal_name
                     writer.writerow(pbtj_row)
                     num += 1
         return num

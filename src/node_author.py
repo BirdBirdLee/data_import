@@ -14,7 +14,7 @@ class AuthorGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return ['author_id:ID', 'name', ':LABEL']
+        return ['author_id:ID(Author-ID)', 'name', ':LABEL']
 
 
     def __init__(self, input_path):
@@ -46,25 +46,12 @@ class AuthorGenerator(base_generator.BaseGenerator):
                             id =  awl.split('-')[1]
                             # 如果人的code是null，就暂时将名字作为唯一id
                             if id != 'null':
-                                author_row['author_id:ID'] = 'author-' +id
+                                author_row['author_id:ID(Author-ID)'] = 'author-' +id
                             else:
-                                author_row['author_id:ID'] = name
+                                author_row['author_id:ID(Author-ID)'] = name
                             writer.writerow(author_row)
                             num += 1
         return num
-
-    def generate(self):
-        '''
-        提取某个指定目录下的所有文件或节点
-        :return:
-        '''
-        for one_file in os.listdir(self.input_path):
-            print('开始抽取', one_file, '的节点及关系信息')
-            num = self.generate_one_file(one_file)
-            print('从', one_file, '中抽取了', num, '个节点或关系信息, 保存至', self.output_filename)
-
-
-
 
 if __name__ == '__main__':
     g = AuthorGenerator('../data_input/qikan')

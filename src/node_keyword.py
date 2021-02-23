@@ -13,7 +13,7 @@ class KeywordGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return ['name:ID', ':LABEL']
+        return ['name:ID(Keyword-ID)', ':LABEL']
 
 
     def __init__(self, input_path):
@@ -37,7 +37,7 @@ class KeywordGenerator(base_generator.BaseGenerator):
                         keyword_row[':LABEL'] = 'Keyword'  # 打上keyword的node标签
                         # 提取出关键词的名字，并作为唯一id
                         if len(kwl) > 0:
-                            keyword_row['name:ID'] = kwl.split('-')[0].strip()
+                            keyword_row['name:ID(Keyword-ID)'] = kwl.split('-')[0].strip()
                             writer.writerow(keyword_row)
                             num += 1
         return num

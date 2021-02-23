@@ -14,7 +14,7 @@ class UnitGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return ['name:ID', ':LABEL']
+        return ['name:ID(Unit-ID)', ':LABEL']
 
     def __init__(self, input_path):
         super().__init__(input_path)
@@ -36,7 +36,7 @@ class UnitGenerator(base_generator.BaseGenerator):
                     for unit in units:
                         unit_row[':LABEL'] = 'Unit'  # 打上unit的node标签
                         # 提取出unit的名字，并作为唯一id
-                        unit_row['name:ID'] = unit.strip()
+                        unit_row['name:ID(Unit-ID)'] = unit.strip()
                         writer.writerow(unit_row)
                         num += 1
         return num

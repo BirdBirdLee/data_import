@@ -14,7 +14,7 @@ class ABTUGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return [':START_ID',':END_ID',':TYPE']
+        return [':START_ID(Author-ID)',':END_ID(Unit-ID)',':TYPE']
 
 
     def __init__(self, input_path):
@@ -37,9 +37,9 @@ class ABTUGenerator(base_generator.BaseGenerator):
                     # 如果人的code是null，就暂时将名字作为唯一id
                     if id != 'null':
                         # 由作者id指向unit
-                        abtu_row[':START_ID'] = 'author-' + id
+                        abtu_row[':START_ID(Author-ID)'] = 'author-' + id
                     else:
-                        abtu_row[':START_ID'] = name
+                        abtu_row[':START_ID(Author-ID)'] = name
                     ####################  获得作者主键 结束######################
 
                     abtu_row[':TYPE'] = 'author_belong_to_unit'
@@ -52,7 +52,7 @@ class ABTUGenerator(base_generator.BaseGenerator):
                     # 得到unit列表
                     units = unit_str.split(';')
                     for unit in units:
-                        abtu_row[':END_ID'] = unit.strip()
+                        abtu_row[':END_ID(Unit-ID)'] = unit.strip()
                         writer.writerow(abtu_row)
                         num += 1
                         ############################################################

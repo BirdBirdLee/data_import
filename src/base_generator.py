@@ -36,6 +36,6 @@ class BaseGenerator:
         :return:
         '''
         for one_file in os.listdir(self.input_path):
-            print('开始抽取', one_file, '的节点及关系信息')
+            print('开始抽取 %-30s .........' % one_file, end='')
             num = self.generate_one_file(one_file)
-            print('从', one_file, '中抽取了', num, '个节点或关系信息, 保存至', self.output_filename)
+            print(('抽取完成，共抽取了 %-8s 个节点或关系信息, 保存至 ' + self.output_filename) % num)

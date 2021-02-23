@@ -15,7 +15,7 @@ class SubjectGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return ['name:ID', ':LABEL']
+        return ['name:ID(Subject-ID)', ':LABEL']
 
     def __init__(self, input_path):
         super().__init__(input_path)
@@ -37,7 +37,7 @@ class SubjectGenerator(base_generator.BaseGenerator):
                     for subject in subjects:
                         subject_row[':LABEL'] = 'Subject'  # 打上subject的node标签
                         # 提取出subject的名字，并作为唯一id
-                        subject_row['name:ID'] = subject.strip()
+                        subject_row['name:ID(Subject-ID)'] = subject.strip()
                         writer.writerow(subject_row)
                         num += 1
         return num

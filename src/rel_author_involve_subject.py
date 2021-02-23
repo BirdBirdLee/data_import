@@ -14,7 +14,7 @@ class AISGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return [':START_ID',':END_ID',':TYPE']
+        return [':START_ID(Author-ID)',':END_ID(Subject-ID)',':TYPE']
 
 
     def __init__(self, input_path):
@@ -37,9 +37,9 @@ class AISGenerator(base_generator.BaseGenerator):
                     # 如果人的code是null，就暂时将名字作为唯一id
                     if id != 'null':
                         # 由作者id指向subject
-                        ais_row[':START_ID'] = 'author-' + id
+                        ais_row[':START_ID(Author-ID)'] = 'author-' + id
                     else:
-                        ais_row[':START_ID'] = name
+                        ais_row[':START_ID(Author-ID)'] = name
                     ####################  获得作者主键 结束######################
 
                     ais_row[':TYPE'] = 'author_involve_subject'
@@ -52,7 +52,7 @@ class AISGenerator(base_generator.BaseGenerator):
                     # 得到subject列表
                     subjects = subject_str.split(';')
                     for subject in subjects:
-                        ais_row[':END_ID'] = subject.strip()
+                        ais_row[':END_ID(Subject-ID)'] = subject.strip()
                         writer.writerow(ais_row)
                         num += 1
                     ############################################################

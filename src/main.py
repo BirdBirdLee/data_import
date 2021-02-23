@@ -14,6 +14,7 @@ import old_node_unit
 import old_rel_paper_belong_to_unit
 import rel_author_involve_subject
 import rel_author_belong_to_unit
+import rel_paper_belong_to_journal
 import rel_paper_involve_keyword
 import rel_paper_involve_subject
 import rel_write
@@ -76,6 +77,9 @@ if __name__ == '__main__':
     # g.generate()
 
 ####################### 专家信息表还没爬 ###########################
+
+    g = rel_paper_belong_to_journal.PBTJGenerator(paper_path)
+    g.generate()
 
     g = rel_paper_involve_keyword.PIKGenerator(paper_path)
     g.generate()

@@ -14,7 +14,7 @@ class JournalGenerator(base_generator.BaseGenerator):
 
     @property
     def header(self):
-        return ['name:ID', ':LABEL']
+        return ['name:ID(Journal-ID)', ':LABEL']
 
     def __init__(self, input_path):
         super().__init__(input_path)
@@ -35,7 +35,7 @@ class JournalGenerator(base_generator.BaseGenerator):
                     journal_row = {} #待存入的一行期刊的信息
                     journal_row[':LABEL'] = 'Journal'  # 打上journal的node标签
                     # 提取出关键词的名字，并作为唯一id
-                    journal_row['name:ID'] = journal_with_link[0]
+                    journal_row['name:ID(Journal-ID)'] = journal_with_link[0]
                     # journal_row['journal_id:ID'] = 'journal-' + journal_with_link[1]
                     writer.writerow(journal_row)
                     num += 1
