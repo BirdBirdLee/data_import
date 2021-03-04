@@ -1,4 +1,5 @@
 import csv
+import os
 
 class FileUtil:
     '''
@@ -19,3 +20,33 @@ class FileUtil:
                 reader = csv.reader(f)
                 if not [row for row in reader]:
                     writer.writeheader()
+    @classmethod
+    def remove_reduntant_header_one_file(self, dir_path: str, filename: str):
+        '''
+        删除某个文件多余的header
+        :param filename:
+        :return:
+        '''
+        num = 0
+        actual_filename = dir_path + '/' + filename
+        with open(actual_filename, 'r', encoding='utf-8') as fin:
+            # 处理好的文件换个文件夹，放在 '原文件夹名_handled' 里面
+            output_filename = dir_path + '_handled/' + filename
+            with open(output_filename, 'a+', encoding='utf-8', newline='') as fout:
+                header = fin.readline() #读取第一行，第一行的标题要保留
+                fout.write(header)
+                for line in fin.readlines():
+                    # 忽略以后的标题行
+                    if line[0:7] != 'authors' and line[0:3] != 'DOI':
+                        fout.write(line)
+                        num += 1
+        return num
+
+    @classmethod
+    def remove_reduntant_header_one_dir(self, dir_path: str):
+        '''
+        删除某个文件夹下所有文件的多余header
+        :return:
+        '''
+        for filename in os.listdir(dir_path):
+            FileUtil.remove_reduntant_header_one_file(dir_path, filename)

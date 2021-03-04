@@ -5,6 +5,7 @@ import csv
 import os
 import file_util
 import base_generator
+import logging
 
 class AuthorGenerator(base_generator.BaseGenerator):
 
@@ -43,14 +44,20 @@ class AuthorGenerator(base_generator.BaseGenerator):
                             name = awl.split('-')[0]
                             author_row['name'] = name
                             # 提取作者的code,因为code是纯数字，所以加个英文开头好些，直观，又不容易重复
-                            id =  awl.split('-')[1]
-                            # 如果人的code是null，就暂时将名字作为唯一id
-                            if id != 'null':
-                                author_row['author_id:ID(Author-ID)'] = 'author-' +id
-                            else:
-                                author_row['author_id:ID(Author-ID)'] = name
-                            writer.writerow(author_row)
-                            num += 1
+                            # id = awl.split('-')[1]
+                            try:
+                                id =  awl.split('-')[1]
+                                # 如果人的code是null，就暂时将名字作为唯一id
+                                if id != 'null':
+                                    author_row['author_id:ID(Author-ID)'] = 'author-' + id
+                                else:
+                                    author_row['author_id:ID(Author-ID)'] = name
+                                writer.writerow(author_row)
+                                num += 1
+                            except IndexError:
+                                logging.debug('提取作者id时出现错误，authors字段如下:', end=' ')
+                                logging.debug(authors_str)
+
         return num
 
 if __name__ == '__main__':

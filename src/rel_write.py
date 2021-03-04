@@ -4,6 +4,7 @@ import csv
 import os
 import file_util
 import base_generator
+import logging
 
 class WriteGenerator(base_generator.BaseGenerator):
 
@@ -42,14 +43,18 @@ class WriteGenerator(base_generator.BaseGenerator):
                             # 提取名字
                             name = awl.split('-')[0]
                             # 提取作者的code,因为code是纯数字，所以加个英文开头好些，直观，又不容易重复
-                            id = awl.split('-')[1]
-                            # 如果人的code是null，就暂时将名字作为唯一id
-                            if id != 'null':
-                                write_dict[':START_ID(Author-ID)'] = 'author-' + id
-                            else:
-                                write_dict[':START_ID(Author-ID)'] = name
-                            writer.writerow(write_dict)
-                            num += 1
+                            try:
+                                id = awl.split('-')[1]
+                                # 如果人的code是null，就暂时将名字作为唯一id
+                                if id != 'null':
+                                    write_dict[':START_ID(Author-ID)'] = 'author-' + id
+                                else:
+                                    write_dict[':START_ID(Author-ID)'] = name
+                                writer.writerow(write_dict)
+                                num += 1
+                            except IndexError:
+                                logging.debug('提取作者id时出现错误，authors字段如下:', end=' ')
+                                logging.debug(awl)
         return num
 
 
