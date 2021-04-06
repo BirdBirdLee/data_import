@@ -53,8 +53,7 @@ class WriteGenerator(base_generator.BaseGenerator):
                                 writer.writerow(write_dict)
                                 num += 1
                             except IndexError:
-                                logging.debug('提取作者id时出现错误，authors字段如下:', end=' ')
-                                logging.debug(awl)
+                                logging.debug('提取作者id时出现错误，authors字段如下:' + authors_str)
         return num
 
 

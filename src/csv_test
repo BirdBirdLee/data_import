@@ -18,6 +18,7 @@ data = [
 
 with open('../test/test_remove_new_line.txt', "r", encoding='utf-8') as f:
     s = f.read()
-    print(s)
-    print(s.replace('\n', ' '))
+    # print(s)
+    # print(s.replace('\n', ' '))
     print(s.replace('\n', '').replace('\r', ' '))
+    # print(s.encode())

@@ -1,4 +1,4 @@
-# 生成专家-学科领域 这一关系
+# 生成专家-单位 这一关系，输入的是专家详细信息文件
 #author_belong_to_unit 太长了，后面全部用 abtu代替
 
 import csv
@@ -32,8 +32,8 @@ class ABTUGenerator(base_generator.BaseGenerator):
                     abtu_row = {}  # 待存入的一行abtu的信息
 
                     ######################## 获得作者的主键信息 ##################
-                    id = row['code']  # 获取作者的code，todo ['code']中的字段名根据实际文件修改
-                    name = row['name']  # 获取作者名字，todo ['name']中的字段名根据实际文件修改
+                    id = row['code']  # 获取作者的code
+                    name = row['name']  # 获取作者名字
                     # 如果人的code是null，就暂时将名字作为唯一id
                     if id != 'null':
                         # 由作者id指向unit
@@ -45,8 +45,8 @@ class ABTUGenerator(base_generator.BaseGenerator):
                     abtu_row[':TYPE'] = 'author_belong_to_unit'
 
                     ################### 对于每一个 unit，生成一个作者-unit关系
-                    # 获取作者unit列表，todo ['unit']中的字段名根据实际文件修改
-                    unit_str = row['unit']
+                    # 获取作者unit列表
+                    unit_str = row['school']
                     if len(unit_str) < 1:
                         continue
                     # 得到unit列表

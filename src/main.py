@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import logging
 
 import file_util
 
@@ -54,13 +55,20 @@ def del_all_output():
     print('删除 ../data_output 下所有文件完成，共删除', del_num, '个文件')
 
 if __name__ == '__main__':
-    # paper_path = '../data_input/paper'
+
+    # 调节日志级别
+    logging.basicConfig(level = logging.DEBUG)
+
+    paper_path_unhandled = '../data_input/paper'
     paper_path = '../data_input/paper_handled'
+    # paper_path = 'D:/TIMFiles/TIMDownload/2020/paper_handled'
     # achievement_path = '../data_input/achievement'
-    achievement_path = '../data_input/achievement_handled'
+    # achievement_path = '../data_input/achievement_handled'
     # 为了减少工作量，把期刊内的和博硕的论文统一为 论文 了，papart_path 内的文件包含这两者
     # qikan_path = '../data_input/qikj'
     # boshuo_path = '../data_input/boshuo'
+
+    author_path = '../data_input/author'
 
     # 删除所有输出文件
     del_all_output()
@@ -73,7 +81,8 @@ if __name__ == '__main__':
     file_util.FileUtil.remove_reduntant_header_one_dir('../data_input/achievement')
 
     # 删除论文文件多余的标题行
-    file_util.FileUtil.remove_reduntant_header_one_dir('../data_input/paper')
+    file_util.FileUtil.remove_reduntant_header_one_dir(paper_path_unhandled)
+    # file_util.FileUtil.remove_reduntant_header_one_dir('D:/TIMFiles/TIMDownload/2020/paper')
 
 
     ###################################### 期刊、博硕 的信息抽取开始##############################
@@ -92,17 +101,17 @@ if __name__ == '__main__':
     g = node_subject.SubjectGenerator(paper_path)
     g.generate()
 
-                      ########### 专家信息表还没爬 ########
-    # g = node_unit.UnitGenerator(paper_path)
-    # g.generate()
-    #
-    # g = rel_author_involve_subject.AISGenerator(paper_path)
-    # g.generate()
-    #
-    # g = rel_author_belong_to_unit.ABTUGenerator(paper_path)
-    # g.generate()
+                      ########### 从人才详情页中抽取信息 开始########
+    g = node_unit.UnitGenerator(author_path)
+    g.generate()
 
-                   ######### 专家信息表还没爬 ###########
+    g = rel_author_involve_subject.AISGenerator(author_path)
+    g.generate()
+
+    g = rel_author_belong_to_unit.ABTUGenerator(author_path)
+    g.generate()
+
+                   ######### 从人才详情页中抽取信息 结束###########
 
     g = rel_paper_belong_to_journal.PBTJGenerator(paper_path)
     g.generate()

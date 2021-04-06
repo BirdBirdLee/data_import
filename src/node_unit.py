@@ -6,6 +6,7 @@ import os
 import file_util
 import base_generator
 
+
 class UnitGenerator(base_generator.BaseGenerator):
 
     @property
@@ -27,7 +28,7 @@ class UnitGenerator(base_generator.BaseGenerator):
             with open(self.output_filename, 'a+', encoding='utf-8', newline='') as fout:
                 writer = csv.DictWriter(fout, self.header)
                 for row in reader:
-                    units_str = row['organs']  # todo ['organs']中的字段名根据实际文件修改
+                    units_str = row['school']
                     if len(units_str) < 1:
                         continue
                     # 得到unit列表

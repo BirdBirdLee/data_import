@@ -4,6 +4,7 @@ import csv
 import os
 import abc
 import file_util
+import logging
 
 
 class BaseGenerator:

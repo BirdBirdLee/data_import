@@ -55,8 +55,7 @@ class AuthorGenerator(base_generator.BaseGenerator):
                                 writer.writerow(author_row)
                                 num += 1
                             except IndexError:
-                                logging.debug('提取作者id时出现错误，authors字段如下:', end=' ')
-                                logging.debug(authors_str)
+                                logging.debug('提取作者id时出现错误，authors字段如下:' + authors_str)
 
         return num
 

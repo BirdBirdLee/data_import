@@ -1,4 +1,4 @@
-# 生成专家-学科领域 这一关系
+# 生成专家-学科领域 这一关系,输入的是专家详细信息文件
 #author_involve_subject 太长了，后面全部用 ais代替
 
 import csv
@@ -46,7 +46,7 @@ class AISGenerator(base_generator.BaseGenerator):
 
                     ################### 对于每一个 subject，生成一个作者-subject关系
                     # 获取作者subject列表，todo ['subject']中的字段名根据实际文件修改
-                    subject_str = row['subject']
+                    subject_str = row['category']
                     if len(subject_str) < 1:
                         continue
                     # 得到subject列表
